@@ -18,6 +18,7 @@
 ### Association
 
 - has_many :items
+- has_many :purchases
 
 ## items テーブル
 
@@ -25,13 +26,13 @@
 | ------------------ | ------ | ----------- |
 | item_name          | string | null: false |
 | description        | text   | null: false |
-| category           | integer| null: false |
-| status             | integer| null: false |
-| area               | integer| null: false |
-| fee                | integer| null: false |
-| days               | integer| null: false |
+| category_id        | integer| null: false |
+| condition_id       | integer| null: false |
+| prefecture_id      | integer| null: false |
+| shipping_fee_id    | integer| null: false |
+| shipping_day_id    | integer| null: false |
 | price              | integer| null: false |
-| items.user         | references(users) |null: false, foreign_key: true |
+| user               | references |null: false, foreign_key: true |
 
 ### Association
 
@@ -43,15 +44,15 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| item_name          | string |null: false  |
-| price              | integer|null: false  |
-| fee                | integer|null: false  |
-| purchases.user     | references(users) |null: false, foreign_key: true |
+| user               | references |null: false, foreign_key: true |
+| item               | references |null: false, foreign_key: true |
+
 
 ### Association
 
 - has_one :destination
 - belongs_to :item
+- belongs_to :user
 
 
 
@@ -65,6 +66,7 @@
 | building           | string |             |
 | address            | string |null: false  |
 | phone_number       | string |null: false  |
+| purchase           | references |null: false, foreign_key: true |
 
 ### Association
 
