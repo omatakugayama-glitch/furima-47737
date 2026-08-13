@@ -1,24 +1,71 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# テーブル設計
 
-Things you may want to cover:
+## users テーブル
 
-* Ruby version
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| nickname           | string | null: false |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false |
+| family_name_kanji  | string | null: false |
+| last_name_kanji    | string | null: false |
+| family_name_kana   | string | null: false |
+| last_name_kana     | string | null: false |
+| birthday           | date   | null: false |
 
-* System dependencies
+### Association
 
-* Configuration
+- has_many :items
 
-* Database creation
+## items テーブル
 
-* Database initialization
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| item_name          | string | null: false |
+| description        | text   | null: false |
+| category           | integer| null: false |
+| status             | integer| null: false |
+| area               | integer| null: false |
+| fee                | integer| null: false |
+| days               | integer| null: false |
+| price              | integer| null: false |
+| items.user         | references(users) |null: false, foreign_key: true |
 
-* How to run the test suite
+### Association
 
-* Services (job queues, cache servers, search engines, etc.)
+- has_one :purchase
+- belongs_to :user
 
-* Deployment instructions
 
-* ...
+## purchases テーブル
+
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| item_name          | string |null: false  |
+| price              | integer|null: false  |
+| fee                | integer|null: false  |
+| purchases.user     | references(users) |null: false, foreign_key: true |
+
+### Association
+
+- has_one :destination
+- belongs_to :item
+
+
+
+## destinations テーブル
+
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| postal_code        | string |null: false  |
+| prefecture         | integer|null: false  |
+| city               | string |null: false  |
+| building           | string |             |
+| address            | string |null: false  |
+| phone_number       | string |null: false  |
+
+### Association
+
+- belongs_to :purchase
