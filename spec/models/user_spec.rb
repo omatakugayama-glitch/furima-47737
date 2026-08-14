@@ -15,16 +15,18 @@ RSpec.describe User, type: :model do
       expect(user.errors.full_messages).to include("Email can't be blank")
     end
     it 'emailは一意性である' do
-      User.create!(nickname: 'test', email: 'test@example', password: '1aaaaa', password_confirmation: '1aaaaa', family_name_kanji: '田中', last_name_kanji: '良子', family_name_kana: 'タナカ', last_name_kana: 'リョウコ', birthday: '1931-02-03')
-      user = User.new(nickname: 'test', email: 'test@example', password: '1aaaaa', password_confirmation: '1aaaaa', family_name_kanji: '田中', last_name_kanji: '良子', family_name_kana: 'タナカ', last_name_kana: 'リョウコ', birthday: '1931-02-03')
+      User.create!(nickname: 'test', email: 'test@example', password: '1aaaaa', password_confirmation: '1aaaaa',
+                   family_name_kanji: '田中', last_name_kanji: '良子', family_name_kana: 'タナカ', last_name_kana: 'リョウコ', birthday: '1931-02-03')
+      user = User.new(nickname: 'test', email: 'test@example', password: '1aaaaa', password_confirmation: '1aaaaa',
+                      family_name_kanji: '田中', last_name_kanji: '良子', family_name_kana: 'タナカ', last_name_kana: 'リョウコ', birthday: '1931-02-03')
       user.valid?
-      expect(user.errors.full_messages).to include("Email has already been taken")
+      expect(user.errors.full_messages).to include('Email has already been taken')
     end
     it 'emailは@を含まないと登録できない' do
       user = FactoryBot.build(:user)
       user.email = 'testexample'
       user.valid?
-      expect(user.errors.full_messages).to include("Email is invalid")
+      expect(user.errors.full_messages).to include('Email is invalid')
     end
     it 'passwordが空では登録できない' do
       user = FactoryBot.build(:user)
@@ -36,7 +38,7 @@ RSpec.describe User, type: :model do
       user = FactoryBot.build(:user)
       user.password = '1aaa'
       user.valid?
-      expect(user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
+      expect(user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
     end
     it 'パスワードとパスワード（確認）は、値の一致が必要である' do
       user = FactoryBot.build(:user)
