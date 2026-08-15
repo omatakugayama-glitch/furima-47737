@@ -88,6 +88,42 @@ RSpec.describe User, type: :model do
       user.valid?
       expect(user.errors.full_messages).to include("Last name kana can't be blank")
     end
+    it 'family_name_kanjiが半角英数では登録できない' do
+      user = FactoryBot.build(:user)
+      user.family_name_kanji = 'tamada'
+      user.valid?
+      expect(user.errors.full_messages).to include("Family name kanji is invalid")
+    end
+    it 'last_name_kanjiが半角英数では登録できない' do
+      user = FactoryBot.build(:user)
+      user.last_name_kanji = 'ryouko'
+      user.valid?
+      expect(user.errors.full_messages).to include("Last name kanji is invalid")
+    end
+    it 'family_name_kanaが平仮名では登録できない' do
+      user = FactoryBot.build(:user)
+      user.family_name_kana = 'たまだ'
+      user.valid?
+      expect(user.errors.full_messages).to include("Family name kana is invalid")
+    end
+    it 'last_name_kanaが平仮名では登録できない' do
+      user = FactoryBot.build(:user)
+      user.last_name_kana = 'りょうこ'
+      user.valid?
+      expect(user.errors.full_messages).to include("Last name kana is invalid")
+    end
+    it 'family_name_kanaが半角カタカナでは登録できない' do
+      user = FactoryBot.build(:user)
+      user.family_name_kana = 'ﾀﾏﾀﾞ'
+      user.valid?
+      expect(user.errors.full_messages).to include("Family name kana is invalid")
+    end
+    it 'last_name_kanaが半角カタカナでは登録できない' do
+      user = FactoryBot.build(:user)
+      user.last_name_kana = 'ﾘｮｳｺ'
+      user.valid?
+      expect(user.errors.full_messages).to include("Last name kana is invalid")
+    end
     it 'birthdayが空では登録できない' do
       user = FactoryBot.build(:user)
       user.birthday = ''
