@@ -2,7 +2,6 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
-
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :category
   belongs_to_active_hash :condition
@@ -10,8 +9,19 @@ class Item < ApplicationRecord
   belongs_to_active_hash :shipping_fee
   belongs_to_active_hash :shipping_day
 
+  validates :image, presence: true
+  validates :item_name, presence: true
+  validates :description, presence: true
+  validates :price, presence: true
+
   validates :category_id, :condition_id, :prefecture_id,
             :shipping_fee_id, :shipping_day_id,
             numericality: { other_than: 1 }
-    #validates :user_id presence: true ←不要#
+
+  validates :price,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 300,
+              less_than_or_equal_to: 9_999_999
+            }
 end
