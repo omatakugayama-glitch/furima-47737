@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
+  before_action :move_to_index
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
@@ -38,6 +39,12 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def move_to_index
+    if current_user == @item.user || @item.purchase.present?
+      redirect_to root_path
+    end
   end
 
 end
